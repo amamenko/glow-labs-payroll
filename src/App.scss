@@ -1,0 +1,49 @@
+@import "./scss/variables.scss";
+@import "./scss//mixins/flexContainer.scss";
+
+.app_container {
+  background: $main_bg_color;
+  height: 100%;
+  display: flex;
+  @include flexContainer(column, center, center);
+}
+
+.input-group {
+  max-width: 400px;
+
+  & > input:last-of-type {
+    color: $active_color;
+    font-weight: 700;
+  }
+}
+
+.input-group-text {
+  width: 200px;
+}
+
+.form-control {
+  min-width: 55px !important;
+}
+
+.input_legend {
+  display: flex;
+  max-width: 400px;
+  width: 100%;
+
+  :first-child {
+    width: 175px;
+  }
+
+  & > p {
+    font-size: 0.8rem;
+    text-align: center;
+    color: $description_color;
+  }
+
+  @include flexContainer(row, center, space-around);
+}
+
+.section_title {
+  margin: 2rem;
+  font-weight: 700;
+}
