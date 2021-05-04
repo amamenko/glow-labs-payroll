@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import InputSection from "./components/InputSection";
 import "./App.scss";
 
 const App = () => {
+  const [tips, changeTips] = useState(0);
+  const [products, changeProducts] = useState(0);
+
   const facialPrices = [
     {
       name: "Facial",
@@ -88,10 +91,22 @@ const App = () => {
       </div>
       <div>
         <InputSection
-          sectionTitle={"Tips"}
-          sectionArr={[{ name: "Tips", price: 3 }]}
+          sectionTitle={"Extras"}
+          sectionArr={[
+            { name: "Tips", percent: 3 },
+            { name: "Products", percent: 10 },
+          ]}
+          tips={tips}
+          changeTips={changeTips}
+          products={products}
+          changeProducts={changeProducts}
         />
-        <InputSection sectionTitle={"Products"} sectionArr={[]} />
+      </div>
+      <div>
+        <InputSection sectionTitle={"Total"}
+          tips={tips}
+          products={products}
+        />
       </div>
     </div>
   );
