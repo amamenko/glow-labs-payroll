@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { InputGroup, InputGroupAddon, InputGroupText, Input } from "reactstrap";
 
 const InputSection = (props) => {
@@ -9,7 +9,18 @@ const InputSection = (props) => {
     changeTips,
     products,
     changeProducts,
+    facialPrices,
+    addOnPrices,
+    numberOfMainServices,
+    changeNumberOfMainServices,
+    numberOfAddOns,
+    changeNumberOfAddOns,
+    subtotal,
+    changeSubtotal,
   } = props;
+
+  const [totalFacialPrice, changeTotalFacialPrice] = useState(0);
+  const [totalAddOnPrice, changeTotalAddOnPrice] = useState(0);
 
   const renderInputLegend = () => {
     return (
@@ -33,15 +44,25 @@ const InputSection = (props) => {
     );
   };
 
-  const handleInputChange = (e, sectionTitle, name) => {
+  const handleInputChange = (e, sectionTitle, name, i) => {
     if (sectionTitle === "Extras") {
       if (e.target.value.includes(".")) {
         if (e.target.value.length > e.target.value.indexOf(".") + 3) {
           return null;
+        } else {
+          if (e.target.value.indexOf(".") === e.target.value.lastIndexOf(".")) {
+            if (name === "Tips") {
+              changeTips(e.target.value);
+            } else if (name === "Products") {
+              changeProducts(e.target.value);
+            } else {
+              return null;
+            }
+          }
         }
-      }
-
-      if (e.target.value.length === 1 && e.target.value[0] === 0) {
+      } else if (isNaN(Number(e.target.value))) {
+        return null;
+      } else if (e.target.value.length === 1 && e.target.value[0] === 0) {
         if (name === "Tips") {
           changeTips(e.target.value);
         } else if (name === "Products") {
@@ -49,7 +70,7 @@ const InputSection = (props) => {
         } else {
           return null;
         }
-      } else if (e.target.value.length > 1 && e.target.value.indexOf(".") < 0) {
+      } else if (e.target.value.indexOf(".") < 0) {
         if (name === "Tips") {
           changeTips(Number(e.target.value));
         } else if (name === "Products") {
@@ -74,9 +95,37 @@ const InputSection = (props) => {
       }
       return null;
     } else {
-      return Number(e.target.value);
+      let arrCopy;
+
+      if (sectionTitle === "Main Treatments") {
+        arrCopy = numberOfMainServices.slice();
+      } else {
+        arrCopy = numberOfAddOns.slice();
+      }
+
+      if (Number(e.target.value) || e.target.value === "0") {
+        arrCopy[i] = Number(e.target.value);
+      } else {
+        arrCopy[i] = "";
+      }
+
+      if (sectionTitle === "Main Treatments") {
+        changeNumberOfMainServices(arrCopy);
+      } else {
+        changeNumberOfAddOns(arrCopy);
+      }
     }
   };
+
+  useEffect(() => {
+    if (numberOfMainServices) {
+      const totalPrice = numberOfMainServices
+        .map((item, i) => Number(item) * Number(facialPrices[i].price))
+        .reduce((a, b) => a + b, 0);
+
+      changeTotalFacialPrice(totalPrice);
+    }
+  }, [facialPrices, numberOfMainServices, subtotal, changeSubtotal]);
 
   return (
     <>
@@ -91,7 +140,7 @@ const InputSection = (props) => {
                   <InputGroupText>{item.name}</InputGroupText>
                 </InputGroupAddon>
                 <Input
-                  maxLength={10}
+                  maxLength={8}
                   value={
                     item.percent
                       ? item.percent.toFixed(2)
@@ -99,15 +148,21 @@ const InputSection = (props) => {
                   }
                 />
                 <Input
-                  maxLength={10}
+                  maxLength={8}
                   onChange={(e) =>
-                    handleInputChange(e, sectionTitle, item.name)
+                    handleInputChange(e, sectionTitle, item.name, i)
                   }
                   value={
                     item.name === "Tips"
                       ? tips
                       : item.name === "Products"
                       ? products
+                      : sectionTitle === "Main Treatments"
+                      ? numberOfMainServices[i]
+                        ? numberOfMainServices[i]
+                        : ""
+                      : numberOfAddOns[i]
+                      ? numberOfAddOns[i]
                       : ""
                   }
                 />
@@ -125,7 +180,14 @@ const InputSection = (props) => {
               </InputGroupText>
             </InputGroupAddon>
             <Input readOnly className="disabled_input" />
-            <Input />
+            <Input
+              className="subtotal_input"
+              value={numberOfMainServices.reduce(
+                (a, b) => Number(a) + Number(b),
+                0
+              )}
+              readOnly
+            />
           </InputGroup>
           <br />
         </>
@@ -141,7 +203,7 @@ const InputSection = (props) => {
             <Input
               maxLength={15}
               className="subtotal_input"
-              value={(Number(tips) + Number(products)).toFixed(2)}
+              value={subtotal.toFixed(2)}
               readOnly
             />
           </InputGroup>

@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputSection from "./components/InputSection";
 import "./App.scss";
 
 const App = () => {
   const [tips, changeTips] = useState(0);
   const [products, changeProducts] = useState(0);
+  const [numberOfMainServices, changeNumberOfMainServices] = useState([]);
+  const [numberOfAddOns, changeNumberOfAddOns] = useState([]);
+  const [subtotal, changeSubtotal] = useState(0);
 
   const facialPrices = [
     {
@@ -36,6 +39,10 @@ const App = () => {
       price: 60,
     },
   ];
+
+  useEffect(() => {
+    changeNumberOfMainServices(new Array(facialPrices.length).fill(""));
+  }, [facialPrices.length]);
 
   const addOnPrices = [
     {
@@ -80,14 +87,33 @@ const App = () => {
     },
   ];
 
+  useEffect(() => {
+    changeNumberOfAddOns(new Array(addOnPrices.length).fill(""));
+  }, [addOnPrices.length]);
+
   return (
     <div className="app_container">
       <div>
         <InputSection
           sectionTitle={"Main Treatments"}
           sectionArr={facialPrices}
+          numberOfMainServices={numberOfMainServices}
+          changeNumberOfMainServices={changeNumberOfMainServices}
+          facialPrices={facialPrices}
+          addOnPrices={addOnPrices}
+          subtotal={subtotal}
+          changeSubtotal={changeSubtotal}
         />
-        <InputSection sectionTitle={"Add Ons"} sectionArr={addOnPrices} />
+        <InputSection
+          sectionTitle={"Add Ons"}
+          sectionArr={addOnPrices}
+          numberOfAddOns={numberOfAddOns}
+          changeNumberOfAddOns={changeNumberOfAddOns}
+          facialPrices={facialPrices}
+          addOnPrices={addOnPrices}
+          subtotal={subtotal}
+          changeSubtotal={changeSubtotal}
+        />
       </div>
       <div>
         <InputSection
@@ -100,12 +126,17 @@ const App = () => {
           changeTips={changeTips}
           products={products}
           changeProducts={changeProducts}
+          subtotal={subtotal}
+          changeSubtotal={changeSubtotal}
         />
       </div>
       <div>
-        <InputSection sectionTitle={"Total"}
+        <InputSection
+          sectionTitle={"Total"}
           tips={tips}
           products={products}
+          subtotal={subtotal}
+          changeSubtotal={changeSubtotal}
         />
       </div>
     </div>
