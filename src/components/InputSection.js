@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect } from "react";
 import { InputGroup, InputGroupAddon, InputGroupText, Input } from "reactstrap";
 
 const InputSection = (props) => {
@@ -15,12 +15,11 @@ const InputSection = (props) => {
     changeNumberOfMainServices,
     numberOfAddOns,
     changeNumberOfAddOns,
-    subtotal,
-    changeSubtotal,
+    totalFacialPrice,
+    changeTotalFacialPrice,
+    totalAddOnPrice,
+    changeTotalAddOnPrice,
   } = props;
-
-  const [totalFacialPrice, changeTotalFacialPrice] = useState(0);
-  const [totalAddOnPrice, changeTotalAddOnPrice] = useState(0);
 
   const renderInputLegend = () => {
     return (
@@ -103,7 +102,9 @@ const InputSection = (props) => {
         arrCopy = numberOfAddOns.slice();
       }
 
-      if (Number(e.target.value) || e.target.value === "0") {
+      if (e.target.value === "0") {
+        arrCopy[i] = 0;
+      } else if (Number(e.target.value)) {
         arrCopy[i] = Number(e.target.value);
       } else {
         arrCopy[i] = "";
@@ -125,7 +126,17 @@ const InputSection = (props) => {
 
       changeTotalFacialPrice(totalPrice);
     }
-  }, [facialPrices, numberOfMainServices, subtotal, changeSubtotal]);
+  }, [facialPrices, numberOfMainServices, changeTotalFacialPrice]);
+
+  useEffect(() => {
+    if (numberOfAddOns) {
+      const totalPrice = numberOfAddOns
+        .map((item, i) => Number(item) * Number(addOnPrices[i].price))
+        .reduce((a, b) => a + b, 0);
+
+      changeTotalAddOnPrice(totalPrice);
+    }
+  }, [addOnPrices, numberOfAddOns, changeTotalAddOnPrice]);
 
   return (
     <>
@@ -158,10 +169,10 @@ const InputSection = (props) => {
                       : item.name === "Products"
                       ? products
                       : sectionTitle === "Main Treatments"
-                      ? numberOfMainServices[i]
+                      ? numberOfMainServices[i] || numberOfMainServices[i] === 0
                         ? numberOfMainServices[i]
                         : ""
-                      : numberOfAddOns[i]
+                      : numberOfAddOns[i] || numberOfAddOns[i] === 0
                       ? numberOfAddOns[i]
                       : ""
                   }
@@ -203,7 +214,12 @@ const InputSection = (props) => {
             <Input
               maxLength={15}
               className="subtotal_input"
-              value={subtotal.toFixed(2)}
+              value={(
+                Number(totalFacialPrice) +
+                Number(totalAddOnPrice) +
+                Number(tips) +
+                Number(products)
+              ).toFixed(2)}
               readOnly
             />
           </InputGroup>

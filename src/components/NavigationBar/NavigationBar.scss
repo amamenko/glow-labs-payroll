@@ -1,0 +1,27 @@
+@import "../../scss/variables.scss";
+@import "../../scss/mixins/flexContainer.scss";
+
+.navigation_bar {
+  height: 7vh;
+  width: 100%;
+  background: $dark_glow_labs_color;
+  display: flex;
+  padding: 0 1rem;
+  @include flexContainer(row, center, space-between);
+
+  @media (min-width: 1024px) {
+    height: 5vh;
+  }
+}
+
+.logo_container {
+  height: 100%;
+  display: flex;
+  color: $light_glow_labs_color;
+  @include flexContainer(row, center, center);
+}
+
+.esthetician_select_container {
+  min-width: 10rem;
+  width: 25%;
+}
