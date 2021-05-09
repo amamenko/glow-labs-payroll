@@ -10,7 +10,11 @@
   @include flexContainer(row, center, space-between);
 
   @media (min-width: 1024px) {
-    height: 5vh;
+    height: 8vh;
+  }
+
+  @media (min-width: 1600px) {
+    height: 7vh;
   }
 }
 

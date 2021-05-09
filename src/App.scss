@@ -12,9 +12,19 @@
   justify-items: center;
   align-content: space-evenly;
   align-items: center;
+  padding-bottom: 10vh;
 
   @media (min-width: 1024px) {
+    padding-top: 4vh;
     grid-template-columns: 1fr 1fr;
+  }
+
+  @media (min-width: 1800px) {
+    padding: 8vh 20rem;
+  }
+
+  @media (min-width: 2000px) {
+    padding: 8vh 25rem;
   }
 }
 
