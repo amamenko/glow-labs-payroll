@@ -19,6 +19,8 @@ const App = () => {
   const [currentAddOnPrices, changeCurrentAddOnPrices] = useState("");
   const [currentExtrasPrices, changeCurrentExtrasPrices] = useState("");
 
+  console.log(currentExtrasPrices);
+
   useEffect(() => {
     if (currentFacialPrices) {
       changeNumberOfMainServices(
@@ -155,6 +157,7 @@ const App = () => {
             changeTotalFacialPrice={changeTotalFacialPrice}
             totalAddOnPrice={totalAddOnPrice}
             changeTotalAddOnPrice={changeTotalAddOnPrice}
+            currentExtrasPrices={currentExtrasPrices}
             tips={tips}
             products={products}
           />

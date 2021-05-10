@@ -19,6 +19,7 @@ const InputSection = (props) => {
     changeTotalFacialPrice,
     totalAddOnPrice,
     changeTotalAddOnPrice,
+    currentExtrasPrices,
   } = props;
 
   const renderInputLegend = () => {
@@ -217,8 +218,14 @@ const InputSection = (props) => {
               value={(
                 Number(totalFacialPrice) +
                 Number(totalAddOnPrice) +
-                Number(tips) +
-                Number(products)
+                (currentExtrasPrices
+                  ? Number(tips) *
+                    ((100 - currentExtrasPrices[0].percent) / 100)
+                  : 0) +
+                (currentExtrasPrices
+                  ? Number(products) *
+                    ((100 - currentExtrasPrices[1].percent) / 100)
+                  : 0)
               ).toFixed(2)}
               readOnly
             />
