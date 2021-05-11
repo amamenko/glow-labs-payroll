@@ -19,8 +19,6 @@ const App = () => {
   const [currentAddOnPrices, changeCurrentAddOnPrices] = useState("");
   const [currentExtrasPrices, changeCurrentExtrasPrices] = useState("");
 
-  console.log(currentExtrasPrices);
-
   useEffect(() => {
     if (currentFacialPrices) {
       changeNumberOfMainServices(
@@ -28,6 +26,8 @@ const App = () => {
       );
     }
   }, [currentFacialPrices]);
+
+  console.log(numberOfMainServices);
 
   useEffect(() => {
     const estheticianQuery = `
@@ -158,8 +158,10 @@ const App = () => {
             totalAddOnPrice={totalAddOnPrice}
             changeTotalAddOnPrice={changeTotalAddOnPrice}
             currentExtrasPrices={currentExtrasPrices}
+            currentFacialPrices={currentFacialPrices}
             tips={tips}
             products={products}
+            numberOfMainServices={numberOfMainServices}
           />
         </div>
       </div>
