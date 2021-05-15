@@ -20,6 +20,8 @@ const InputSection = (props) => {
     changeTotalAddOnPrice,
     currentExtrasPrices,
     currentFacialPrices,
+    allCurrentPrices,
+    changeAllCurrentPrices,
   } = props;
 
   const renderInputLegend = () => {
@@ -145,12 +147,37 @@ const InputSection = (props) => {
     }
   }, [addOnPrices, numberOfAddOns, changeTotalAddOnPrice]);
 
+  const handlePriceOrPercentChange = (
+    e,
+    sectionTitle,
+    value,
+    priceOrPercent,
+    index
+  ) => {
+    if (priceOrPercent === "price") {
+      if (sectionTitle === "Main Treatments") {
+        let facials = allCurrentPrices.facials;
+        facials[index] = e.target.value;
+
+        console.log(allCurrentPrices);
+        console.log(facials);
+      }
+    } else {
+    }
+  };
+
   return (
     <>
       <h2 className="section_title">{sectionTitle}</h2>
       {sectionTitle !== "Total" && renderInputLegend()}
       {sectionArr &&
         sectionArr.map((item, i) => {
+          const priceOrPercent = item.percent ? "percent" : "price";
+
+          const priceOrPercentValue = item.percent
+            ? item.percent.toFixed(2)
+            : item.price.toFixed(2);
+
           return (
             <div key={i}>
               <InputGroup>
@@ -159,10 +186,15 @@ const InputSection = (props) => {
                 </InputGroupAddon>
                 <Input
                   maxLength={8}
-                  value={
-                    item.percent
-                      ? item.percent.toFixed(2)
-                      : item.price.toFixed(2)
+                  value={priceOrPercentValue}
+                  onChange={(e) =>
+                    handlePriceOrPercentChange(
+                      e,
+                      sectionTitle,
+                      priceOrPercentValue,
+                      priceOrPercent,
+                      i
+                    )
                   }
                 />
                 <Input

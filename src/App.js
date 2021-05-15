@@ -15,6 +15,7 @@ const App = () => {
 
   // Current Esthetician Price Data
   const [currentEsthetician, changeCurrentEsthetician] = useState("");
+  const [allCurrentPrices, changeAllCurrentPrices] = useState("");
   const [currentFacialPrices, changeCurrentFacialPrices] = useState("");
   const [currentAddOnPrices, changeCurrentAddOnPrices] = useState("");
   const [currentExtrasPrices, changeCurrentExtrasPrices] = useState("");
@@ -26,8 +27,6 @@ const App = () => {
       );
     }
   }, [currentFacialPrices]);
-
-  console.log(numberOfMainServices);
 
   useEffect(() => {
     const estheticianQuery = `
@@ -89,6 +88,7 @@ const App = () => {
 
       if (filteredEsthetician) {
         if (filteredEsthetician[0]) {
+          changeAllCurrentPrices(filteredEsthetician[0]);
           changeCurrentFacialPrices(filteredEsthetician[0].facials);
           changeCurrentAddOnPrices(filteredEsthetician[0].addOns);
           changeCurrentExtrasPrices(filteredEsthetician[0].extras);
@@ -123,6 +123,8 @@ const App = () => {
             changeTotalFacialPrice={changeTotalFacialPrice}
             totalAddOnPrice={totalAddOnPrice}
             changeTotalAddOnPrice={changeTotalAddOnPrice}
+            allCurrentPrices={allCurrentPrices}
+            changeAllCurrentPrices={changeAllCurrentPrices}
           />
         </div>
         <div>
@@ -134,6 +136,8 @@ const App = () => {
             facialPrices={currentFacialPrices}
             addOnPrices={currentAddOnPrices}
             changeTotalAddOnPrice={changeTotalAddOnPrice}
+            allCurrentPrices={allCurrentPrices}
+            changeAllCurrentPrices={changeAllCurrentPrices}
           />
         </div>
         <div>
@@ -148,6 +152,8 @@ const App = () => {
             changeTotalFacialPrice={changeTotalFacialPrice}
             totalAddOnPrice={totalAddOnPrice}
             changeTotalAddOnPrice={changeTotalAddOnPrice}
+            allCurrentPrices={allCurrentPrices}
+            changeAllCurrentPrices={changeAllCurrentPrices}
           />
         </div>
         <div>
