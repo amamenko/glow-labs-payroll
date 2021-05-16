@@ -117,7 +117,6 @@ const App = () => {
             sectionArr={currentFacialPrices}
             numberOfMainServices={numberOfMainServices}
             changeNumberOfMainServices={changeNumberOfMainServices}
-            facialPrices={currentFacialPrices}
             addOnPrices={currentAddOnPrices}
             totalFacialPrice={totalFacialPrice}
             changeTotalFacialPrice={changeTotalFacialPrice}
@@ -125,6 +124,8 @@ const App = () => {
             changeTotalAddOnPrice={changeTotalAddOnPrice}
             allCurrentPrices={allCurrentPrices}
             changeAllCurrentPrices={changeAllCurrentPrices}
+            currentFacialPrices={currentFacialPrices}
+            changeCurrentFacialPrices={changeCurrentFacialPrices}
           />
         </div>
         <div>
@@ -136,6 +137,8 @@ const App = () => {
             facialPrices={currentFacialPrices}
             addOnPrices={currentAddOnPrices}
             changeTotalAddOnPrice={changeTotalAddOnPrice}
+            currentAddOnPrice={currentAddOnPrices}
+            changeCurrentAddOnPrices={changeCurrentAddOnPrices}
             allCurrentPrices={allCurrentPrices}
             changeAllCurrentPrices={changeAllCurrentPrices}
           />
@@ -154,6 +157,7 @@ const App = () => {
             changeTotalAddOnPrice={changeTotalAddOnPrice}
             allCurrentPrices={allCurrentPrices}
             changeAllCurrentPrices={changeAllCurrentPrices}
+            changeCurrentExtrasPrices={changeCurrentExtrasPrices}
           />
         </div>
         <div>

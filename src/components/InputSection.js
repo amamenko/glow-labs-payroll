@@ -1,5 +1,8 @@
 import React, { useEffect } from "react";
 import { InputGroup, InputGroupAddon, InputGroupText, Input } from "reactstrap";
+import cloneDeep from "lodash/cloneDeep";
+import { RiDeleteBin5Fill } from "react-icons/ri";
+import { Button } from "reactstrap";
 
 const InputSection = (props) => {
   const {
@@ -19,7 +22,10 @@ const InputSection = (props) => {
     totalAddOnPrice,
     changeTotalAddOnPrice,
     currentExtrasPrices,
+    changeCurrentExtrasPrices,
     currentFacialPrices,
+    changeCurrentFacialPrices,
+    changeCurrentAddOnPrices,
     allCurrentPrices,
     changeAllCurrentPrices,
   } = props;
@@ -150,19 +156,42 @@ const InputSection = (props) => {
   const handlePriceOrPercentChange = (
     e,
     sectionTitle,
-    value,
     priceOrPercent,
     index
   ) => {
+    let allPricesClone = cloneDeep(allCurrentPrices);
+    const numbersRegex = new RegExp(/^(\d+)?([.]?\d{0,2})?$/);
+
+    const changeSectionFunction = (arr, changeFn) => {
+      if (numbersRegex.test(e.target.value)) {
+        let newSection = arr;
+        console.log(newSection);
+
+        if (priceOrPercent === "price") {
+          newSection[index].price = e.target.value;
+        } else {
+          newSection[index].percent = e.target.value;
+        }
+
+        allPricesClone.section = newSection;
+
+        changeAllCurrentPrices(allPricesClone);
+        changeFn(newSection);
+      }
+    };
+
     if (priceOrPercent === "price") {
       if (sectionTitle === "Main Treatments") {
-        let facials = allCurrentPrices.facials;
-        facials[index] = e.target.value;
-
-        console.log(allCurrentPrices);
-        console.log(facials);
+        changeSectionFunction(sectionArr, changeCurrentFacialPrices);
+      } else {
+        if (sectionTitle === "Add Ons") {
+          changeSectionFunction(sectionArr, changeCurrentAddOnPrices);
+        }
       }
     } else {
+      if (sectionTitle === "Extras") {
+        changeSectionFunction(sectionArr, changeCurrentExtrasPrices);
+      }
     }
   };
 
@@ -174,13 +203,11 @@ const InputSection = (props) => {
         sectionArr.map((item, i) => {
           const priceOrPercent = item.percent ? "percent" : "price";
 
-          const priceOrPercentValue = item.percent
-            ? item.percent.toFixed(2)
-            : item.price.toFixed(2);
+          const priceOrPercentValue = item.percent ? item.percent : item.price;
 
           return (
             <div key={i}>
-              <InputGroup>
+              <InputGroup className="section_input_group">
                 <InputGroupAddon addonType="prepend">
                   <InputGroupText>{item.name}</InputGroupText>
                 </InputGroupAddon>
@@ -191,7 +218,6 @@ const InputSection = (props) => {
                     handlePriceOrPercentChange(
                       e,
                       sectionTitle,
-                      priceOrPercentValue,
                       priceOrPercent,
                       i
                     )
@@ -216,6 +242,7 @@ const InputSection = (props) => {
                       : ""
                   }
                 />
+                <RiDeleteBin5Fill fill="#cb2431" />
               </InputGroup>
               <br />
             </div>
@@ -241,6 +268,9 @@ const InputSection = (props) => {
           </InputGroup>
           <br />
         </>
+      ) : null}
+      {sectionTitle !== "Total" ? (
+        <Button color="primary">Save Changes</Button>
       ) : null}
       {sectionTitle === "Total" ? (
         <>
