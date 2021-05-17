@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import { InputGroup, InputGroupAddon, InputGroupText, Input } from "reactstrap";
 import cloneDeep from "lodash/cloneDeep";
+import isEqual from "lodash/isEqual";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { Button } from "reactstrap";
+/* eslint-disable no-useless-escape */
 
 const InputSection = (props) => {
   const {
@@ -28,6 +30,7 @@ const InputSection = (props) => {
     changeCurrentAddOnPrices,
     allCurrentPrices,
     changeAllCurrentPrices,
+    allInitialPrices,
   } = props;
 
   const renderInputLegend = () => {
@@ -146,7 +149,13 @@ const InputSection = (props) => {
   useEffect(() => {
     if (numberOfAddOns) {
       const totalPrice = numberOfAddOns
-        .map((item, i) => Number(item) * Number(addOnPrices[i].price))
+        .map((item, i) => {
+          if (addOnPrices[i]) {
+            return Number(item) * Number(addOnPrices[i].price);
+          } else {
+            return 0;
+          }
+        })
         .reduce((a, b) => a + b, 0);
 
       changeTotalAddOnPrice(totalPrice);
@@ -163,9 +172,8 @@ const InputSection = (props) => {
     const numbersRegex = new RegExp(/^(\d+)?([.]?\d{0,2})?$/);
 
     const changeSectionFunction = (arr, changeFn) => {
-      if (numbersRegex.test(e.target.value)) {
+      if (numbersRegex.test(e.target.value) || Number(e.target.value)) {
         let newSection = arr;
-        console.log(newSection);
 
         if (priceOrPercent === "price") {
           newSection[index].price = e.target.value;
@@ -195,13 +203,35 @@ const InputSection = (props) => {
     }
   };
 
+  const handleDeleteItem = (sectionTitle, index) => {
+    let allPricesClone = cloneDeep(allCurrentPrices);
+
+    const changeSectionFunction = (section, changeFn) => {
+      allPricesClone[section].splice(index, 1);
+
+      changeAllCurrentPrices(allPricesClone);
+      changeFn(allPricesClone[section]);
+    };
+
+    if (sectionTitle === "Main Treatments") {
+      changeSectionFunction("facials", changeCurrentFacialPrices);
+    } else if (sectionTitle === "Add Ons") {
+      changeSectionFunction("addOns", changeCurrentAddOnPrices);
+    } else {
+      if (sectionTitle === "Extras") {
+        changeSectionFunction("extras", changeCurrentExtrasPrices);
+      }
+    }
+  };
+
   return (
     <>
       <h2 className="section_title">{sectionTitle}</h2>
       {sectionTitle !== "Total" && renderInputLegend()}
       {sectionArr &&
         sectionArr.map((item, i) => {
-          const priceOrPercent = item.percent ? "percent" : "price";
+          const priceOrPercent =
+            sectionTitle === "Extras" ? "percent" : "price";
 
           const priceOrPercentValue = item.percent ? item.percent : item.price;
 
@@ -213,7 +243,7 @@ const InputSection = (props) => {
                 </InputGroupAddon>
                 <Input
                   maxLength={8}
-                  value={priceOrPercentValue}
+                  value={priceOrPercentValue ? priceOrPercentValue : ""}
                   onChange={(e) =>
                     handlePriceOrPercentChange(
                       e,
@@ -242,7 +272,10 @@ const InputSection = (props) => {
                       : ""
                   }
                 />
-                <RiDeleteBin5Fill fill="#cb2431" />
+                <RiDeleteBin5Fill
+                  fill="#cb2431"
+                  onClick={() => handleDeleteItem(sectionTitle, i)}
+                />
               </InputGroup>
               <br />
             </div>
@@ -270,7 +303,64 @@ const InputSection = (props) => {
         </>
       ) : null}
       {sectionTitle !== "Total" ? (
-        <Button color="primary">Save Changes</Button>
+        sectionTitle === "Main Treatments" &&
+        allInitialPrices &&
+        allCurrentPrices ? (
+          !isEqual(
+            allInitialPrices.facials.map((item) => {
+              return {
+                name: item.name,
+                price: JSON.stringify(item.price).replace(/\"/g, ""),
+              };
+            }),
+            allCurrentPrices.facials.map((item) => {
+              return {
+                name: item.name,
+                price: JSON.stringify(item.price).replace(/\"/g, ""),
+              };
+            })
+          ) ? (
+            <Button color="primary">Save Changes</Button>
+          ) : null
+        ) : sectionTitle === "Add Ons" &&
+          allInitialPrices &&
+          allCurrentPrices ? (
+          !isEqual(
+            allInitialPrices.addOns.map((item) => {
+              return {
+                name: item.name,
+                price: JSON.stringify(item.price).replace(/\"/g, ""),
+              };
+            }),
+            allCurrentPrices.addOns.map((item) => {
+              return {
+                name: item.name,
+                price: JSON.stringify(item.price).replace(/\"/g, ""),
+              };
+            })
+          ) ? (
+            <Button color="primary">Save Changes</Button>
+          ) : null
+        ) : sectionTitle === "Extras" &&
+          allInitialPrices &&
+          allCurrentPrices ? (
+          !isEqual(
+            allInitialPrices.extras.map((item) => {
+              return {
+                name: item.name,
+                percent: JSON.stringify(item.percent).replace(/\"/g, ""),
+              };
+            }),
+            allCurrentPrices.extras.map((item) => {
+              return {
+                name: item.name,
+                percent: JSON.stringify(item.percent).replace(/\"/g, ""),
+              };
+            })
+          ) ? (
+            <Button color="primary">Save Changes</Button>
+          ) : null
+        ) : null
       ) : null}
       {sectionTitle === "Total" ? (
         <>
@@ -311,13 +401,19 @@ const InputSection = (props) => {
               value={(
                 Number(totalAddOnPrice) +
                 (currentExtrasPrices
-                  ? Number(products) * (currentExtrasPrices[1].percent / 100)
+                  ? currentExtrasPrices[1]
+                    ? Number(products) * (currentExtrasPrices[1].percent / 100)
+                    : 0
                   : 0) +
                 numberOfMainServices
                   .map((item, i) => {
-                    const difference =
-                      item * currentFacialPrices[i].price -
-                      currentFacialPrices[0].price;
+                    let difference = 0;
+
+                    if (currentFacialPrices[i]) {
+                      difference =
+                        item * currentFacialPrices[i].price -
+                        currentFacialPrices[0].price;
+                    }
 
                     if (difference > 0) {
                       return difference;
@@ -341,7 +437,10 @@ const InputSection = (props) => {
               maxLength={15}
               className="subtotal_input"
               value={(currentExtrasPrices
-                ? Number(tips) * ((100 - currentExtrasPrices[0].percent) / 100)
+                ? currentExtrasPrices[0]
+                  ? Number(tips) *
+                    ((100 - currentExtrasPrices[0].percent) / 100)
+                  : 0
                 : 0
               ).toFixed(2)}
               readOnly

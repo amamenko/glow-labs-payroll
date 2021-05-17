@@ -15,6 +15,7 @@ const App = () => {
 
   // Current Esthetician Price Data
   const [currentEsthetician, changeCurrentEsthetician] = useState("");
+  const [allInitialPrices, changeAllInitialPrices] = useState("");
   const [allCurrentPrices, changeAllCurrentPrices] = useState("");
   const [currentFacialPrices, changeCurrentFacialPrices] = useState("");
   const [currentAddOnPrices, changeCurrentAddOnPrices] = useState("");
@@ -88,6 +89,7 @@ const App = () => {
 
       if (filteredEsthetician) {
         if (filteredEsthetician[0]) {
+          changeAllInitialPrices(filteredEsthetician[0]);
           changeAllCurrentPrices(filteredEsthetician[0]);
           changeCurrentFacialPrices(filteredEsthetician[0].facials);
           changeCurrentAddOnPrices(filteredEsthetician[0].addOns);
@@ -126,6 +128,7 @@ const App = () => {
             changeAllCurrentPrices={changeAllCurrentPrices}
             currentFacialPrices={currentFacialPrices}
             changeCurrentFacialPrices={changeCurrentFacialPrices}
+            allInitialPrices={allInitialPrices}
           />
         </div>
         <div>
@@ -141,6 +144,7 @@ const App = () => {
             changeCurrentAddOnPrices={changeCurrentAddOnPrices}
             allCurrentPrices={allCurrentPrices}
             changeAllCurrentPrices={changeAllCurrentPrices}
+            allInitialPrices={allInitialPrices}
           />
         </div>
         <div>
@@ -157,7 +161,9 @@ const App = () => {
             changeTotalAddOnPrice={changeTotalAddOnPrice}
             allCurrentPrices={allCurrentPrices}
             changeAllCurrentPrices={changeAllCurrentPrices}
+            currentExtrasPrices={currentExtrasPrices}
             changeCurrentExtrasPrices={changeCurrentExtrasPrices}
+            allInitialPrices={allInitialPrices}
           />
         </div>
         <div>
