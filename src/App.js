@@ -3,6 +3,7 @@ import InputSection from "./components/InputSection";
 import NavigationBar from "./components/NavigationBar/NavigationBar";
 import axios from "axios";
 import "./App.scss";
+import { Spinner } from "reactstrap";
 
 const App = () => {
   const [tips, changeTips] = useState(0);
@@ -112,81 +113,87 @@ const App = () => {
         changeCurrentEsthetician={changeCurrentEsthetician}
         estheticianResults={estheticianResults}
       />
-      <div className="app_container">
-        <div>
-          <InputSection
-            sectionTitle={"Main Treatments"}
-            sectionArr={currentFacialPrices}
-            numberOfMainServices={numberOfMainServices}
-            changeNumberOfMainServices={changeNumberOfMainServices}
-            addOnPrices={currentAddOnPrices}
-            totalFacialPrice={totalFacialPrice}
-            changeTotalFacialPrice={changeTotalFacialPrice}
-            totalAddOnPrice={totalAddOnPrice}
-            changeTotalAddOnPrice={changeTotalAddOnPrice}
-            allCurrentPrices={allCurrentPrices}
-            changeAllCurrentPrices={changeAllCurrentPrices}
-            currentFacialPrices={currentFacialPrices}
-            changeCurrentFacialPrices={changeCurrentFacialPrices}
-            allInitialPrices={allInitialPrices}
-            currentEsthetician={currentEsthetician}
-            changeAllInitialPrices={changeAllInitialPrices}
-          />
+      {!estheticianResults ? (
+        <div className="main_app_spinner_container">
+          <Spinner color="dark" className="main_app_spinner" />
         </div>
-        <div>
-          <InputSection
-            sectionTitle={"Add Ons"}
-            sectionArr={currentAddOnPrices}
-            numberOfAddOns={numberOfAddOns}
-            changeNumberOfAddOns={changeNumberOfAddOns}
-            facialPrices={currentFacialPrices}
-            addOnPrices={currentAddOnPrices}
-            changeTotalAddOnPrice={changeTotalAddOnPrice}
-            currentAddOnPrice={currentAddOnPrices}
-            changeCurrentAddOnPrices={changeCurrentAddOnPrices}
-            allCurrentPrices={allCurrentPrices}
-            changeAllCurrentPrices={changeAllCurrentPrices}
-            allInitialPrices={allInitialPrices}
-            currentEsthetician={currentEsthetician}
-            changeAllInitialPrices={changeAllInitialPrices}
-          />
+      ) : (
+        <div className="app_container">
+          <div>
+            <InputSection
+              sectionTitle={"Main Treatments"}
+              sectionArr={currentFacialPrices}
+              numberOfMainServices={numberOfMainServices}
+              changeNumberOfMainServices={changeNumberOfMainServices}
+              addOnPrices={currentAddOnPrices}
+              totalFacialPrice={totalFacialPrice}
+              changeTotalFacialPrice={changeTotalFacialPrice}
+              totalAddOnPrice={totalAddOnPrice}
+              changeTotalAddOnPrice={changeTotalAddOnPrice}
+              allCurrentPrices={allCurrentPrices}
+              changeAllCurrentPrices={changeAllCurrentPrices}
+              currentFacialPrices={currentFacialPrices}
+              changeCurrentFacialPrices={changeCurrentFacialPrices}
+              allInitialPrices={allInitialPrices}
+              currentEsthetician={currentEsthetician}
+              changeAllInitialPrices={changeAllInitialPrices}
+            />
+          </div>
+          <div>
+            <InputSection
+              sectionTitle={"Add Ons"}
+              sectionArr={currentAddOnPrices}
+              numberOfAddOns={numberOfAddOns}
+              changeNumberOfAddOns={changeNumberOfAddOns}
+              facialPrices={currentFacialPrices}
+              addOnPrices={currentAddOnPrices}
+              changeTotalAddOnPrice={changeTotalAddOnPrice}
+              currentAddOnPrice={currentAddOnPrices}
+              changeCurrentAddOnPrices={changeCurrentAddOnPrices}
+              allCurrentPrices={allCurrentPrices}
+              changeAllCurrentPrices={changeAllCurrentPrices}
+              allInitialPrices={allInitialPrices}
+              currentEsthetician={currentEsthetician}
+              changeAllInitialPrices={changeAllInitialPrices}
+            />
+          </div>
+          <div>
+            <InputSection
+              sectionTitle={"Extras"}
+              sectionArr={currentExtrasPrices}
+              tips={tips}
+              changeTips={changeTips}
+              products={products}
+              changeProducts={changeProducts}
+              totalFacialPrice={totalFacialPrice}
+              changeTotalFacialPrice={changeTotalFacialPrice}
+              totalAddOnPrice={totalAddOnPrice}
+              changeTotalAddOnPrice={changeTotalAddOnPrice}
+              allCurrentPrices={allCurrentPrices}
+              changeAllCurrentPrices={changeAllCurrentPrices}
+              currentExtrasPrices={currentExtrasPrices}
+              changeCurrentExtrasPrices={changeCurrentExtrasPrices}
+              allInitialPrices={allInitialPrices}
+              currentEsthetician={currentEsthetician}
+              changeAllInitialPrices={changeAllInitialPrices}
+            />
+          </div>
+          <div>
+            <InputSection
+              sectionTitle={"Total"}
+              totalFacialPrice={totalFacialPrice}
+              changeTotalFacialPrice={changeTotalFacialPrice}
+              totalAddOnPrice={totalAddOnPrice}
+              changeTotalAddOnPrice={changeTotalAddOnPrice}
+              currentExtrasPrices={currentExtrasPrices}
+              currentFacialPrices={currentFacialPrices}
+              tips={tips}
+              products={products}
+              numberOfMainServices={numberOfMainServices}
+            />
+          </div>
         </div>
-        <div>
-          <InputSection
-            sectionTitle={"Extras"}
-            sectionArr={currentExtrasPrices}
-            tips={tips}
-            changeTips={changeTips}
-            products={products}
-            changeProducts={changeProducts}
-            totalFacialPrice={totalFacialPrice}
-            changeTotalFacialPrice={changeTotalFacialPrice}
-            totalAddOnPrice={totalAddOnPrice}
-            changeTotalAddOnPrice={changeTotalAddOnPrice}
-            allCurrentPrices={allCurrentPrices}
-            changeAllCurrentPrices={changeAllCurrentPrices}
-            currentExtrasPrices={currentExtrasPrices}
-            changeCurrentExtrasPrices={changeCurrentExtrasPrices}
-            allInitialPrices={allInitialPrices}
-            currentEsthetician={currentEsthetician}
-            changeAllInitialPrices={changeAllInitialPrices}
-          />
-        </div>
-        <div>
-          <InputSection
-            sectionTitle={"Total"}
-            totalFacialPrice={totalFacialPrice}
-            changeTotalFacialPrice={changeTotalFacialPrice}
-            totalAddOnPrice={totalAddOnPrice}
-            changeTotalAddOnPrice={changeTotalAddOnPrice}
-            currentExtrasPrices={currentExtrasPrices}
-            currentFacialPrices={currentFacialPrices}
-            tips={tips}
-            products={products}
-            numberOfMainServices={numberOfMainServices}
-          />
-        </div>
-      </div>
+      )}
     </>
   );
 };

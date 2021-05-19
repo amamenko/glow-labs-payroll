@@ -30,6 +30,21 @@
   }
 }
 
+.main_app_spinner_container {
+  position: relative;
+  height: 80vh;
+}
+
+.main_app_spinner {
+  position: absolute;
+  margin: 0 auto;
+  top: 40%;
+  left: 0;
+  right: 0;
+  width: 7rem;
+  height: 7rem;
+}
+
 .input-group {
   max-width: 400px;
 
@@ -121,11 +136,34 @@
 
   & > .spinner-border {
     position: absolute;
-    right: 18%;
+    right: -10%;
+    width: 1.5rem;
+    height: 1.5rem;
+    top: 40%;
     margin: 0 auto;
 
-    @media (max-width: 414px) {
-      right: 10%;
+    @media (max-width: 768px) {
+      width: 1rem;
+      height: 1rem;
+      top: 50%;
+      right: -7%;
     }
+  }
+}
+
+.section_button_container {
+  button {
+    margin-top: 1rem;
+    width: 100%;
+  }
+}
+
+.section_button {
+  @include flexContainer(row, center, center);
+  position: relative;
+
+  & > svg {
+    position: absolute;
+    left: 5%;
   }
 }
