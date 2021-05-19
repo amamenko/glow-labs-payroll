@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { InputGroup, InputGroupAddon, InputGroupText, Input } from "reactstrap";
 import { renderInputLegend } from "./renderFunctions/renderInputLegend";
 import { renderSaveButton } from "./renderFunctions/renderSaveButton";
@@ -29,7 +29,11 @@ const InputSection = (props) => {
     allCurrentPrices,
     changeAllCurrentPrices,
     allInitialPrices,
+    currentEsthetician,
+    changeAllInitialPrices,
   } = props;
+
+  const [spinnerLoading, changeSpinnerLoading] = useState(false);
 
   useEffect(() => {
     if (numberOfMainServices) {
@@ -105,7 +109,17 @@ const InputSection = (props) => {
           <br />
         </>
       ) : null}
-      {renderSaveButton(sectionTitle, allInitialPrices, allCurrentPrices)}
+      {renderSaveButton(
+        sectionTitle,
+        allInitialPrices,
+        changeAllInitialPrices,
+        allCurrentPrices,
+        changeAllCurrentPrices,
+        currentEsthetician,
+        sectionArr,
+        spinnerLoading,
+        changeSpinnerLoading
+      )}
       {sectionTitle === "Total" ? (
         <>
           <InputGroup>
@@ -174,7 +188,7 @@ const InputSection = (props) => {
           <InputGroup>
             <InputGroupAddon addonType="prepend">
               <InputGroupText>
-                <b>Paycheck Tips($)</b>
+                <b>Paycheck Tips ($)</b>
               </InputGroupText>
             </InputGroupAddon>
             <Input

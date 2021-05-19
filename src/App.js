@@ -129,6 +129,8 @@ const App = () => {
             currentFacialPrices={currentFacialPrices}
             changeCurrentFacialPrices={changeCurrentFacialPrices}
             allInitialPrices={allInitialPrices}
+            currentEsthetician={currentEsthetician}
+            changeAllInitialPrices={changeAllInitialPrices}
           />
         </div>
         <div>
@@ -145,6 +147,8 @@ const App = () => {
             allCurrentPrices={allCurrentPrices}
             changeAllCurrentPrices={changeAllCurrentPrices}
             allInitialPrices={allInitialPrices}
+            currentEsthetician={currentEsthetician}
+            changeAllInitialPrices={changeAllInitialPrices}
           />
         </div>
         <div>
@@ -164,6 +168,8 @@ const App = () => {
             currentExtrasPrices={currentExtrasPrices}
             changeCurrentExtrasPrices={changeCurrentExtrasPrices}
             allInitialPrices={allInitialPrices}
+            currentEsthetician={currentEsthetician}
+            changeAllInitialPrices={changeAllInitialPrices}
           />
         </div>
         <div>

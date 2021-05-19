@@ -3,11 +3,8 @@ import Select from "react-select";
 import "./NavigationBar.scss";
 
 const NavigationBar = (props) => {
-  const {
-    currentEsthetician,
-    changeCurrentEsthetician,
-    estheticianResults,
-  } = props;
+  const { currentEsthetician, changeCurrentEsthetician, estheticianResults } =
+    props;
 
   const options =
     estheticianResults &&
