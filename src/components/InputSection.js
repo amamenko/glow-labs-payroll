@@ -10,6 +10,7 @@ import { renderInputLegend } from "./renderFunctions/renderInputLegend";
 import { renderSaveButton } from "./renderFunctions/renderSaveButton";
 import { renderSection } from "./renderFunctions/renderSection";
 import { IoMdAddCircleOutline } from "react-icons/io";
+import LineItemModal from "./LineItemModal";
 
 const InputSection = (props) => {
   const {
@@ -41,6 +42,7 @@ const InputSection = (props) => {
   } = props;
 
   const [spinnerLoading, changeSpinnerLoading] = useState(false);
+  const [modalActive, changeModalActive] = useState(false);
 
   useEffect(() => {
     if (numberOfMainServices) {
@@ -73,6 +75,10 @@ const InputSection = (props) => {
       changeTotalAddOnPrice(totalPrice);
     }
   }, [addOnPrices, numberOfAddOns, changeTotalAddOnPrice]);
+
+  const toggleModal = () => {
+    changeModalActive(!modalActive);
+  };
 
   return (
     <>
@@ -136,10 +142,20 @@ const InputSection = (props) => {
           changeSpinnerLoading
         )}
         {sectionTitle !== "Total" ? (
-          <Button outline color="secondary" className="section_button">
+          <Button
+            outline
+            color="secondary"
+            className="section_button"
+            onClick={toggleModal}
+          >
             <IoMdAddCircleOutline /> Add Line Item
           </Button>
         ) : null}
+        <LineItemModal
+          sectionTitle={sectionTitle}
+          modalActive={modalActive}
+          toggleModal={toggleModal}
+        />
       </div>
       {sectionTitle === "Total" ? (
         <>
