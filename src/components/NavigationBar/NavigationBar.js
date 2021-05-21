@@ -31,6 +31,10 @@ const NavigationBar = (props) => {
     },
   };
 
+  const handleChangeSelect = (item) => {
+    changeCurrentEsthetician(item.value);
+  };
+
   return (
     <div className="navigation_bar">
       <div className="logo_container">Glow Labs Payroll</div>
@@ -40,7 +44,7 @@ const NavigationBar = (props) => {
         placeholder={currentEsthetician}
         className="esthetician_select_container"
         options={options}
-        onChange={(item) => changeCurrentEsthetician(item.value)}
+        onChange={(item) => handleChangeSelect(item)}
       />
     </div>
   );
