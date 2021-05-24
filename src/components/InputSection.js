@@ -152,6 +152,16 @@ const InputSection = (props) => {
           </Button>
         ) : null}
         <LineItemModal
+          sectionArr={sectionArr}
+          changeFn={
+            changeCurrentFacialPrices
+              ? changeCurrentFacialPrices
+              : changeCurrentAddOnPrices
+              ? changeCurrentAddOnPrices
+              : changeCurrentExtrasPrices
+              ? changeCurrentExtrasPrices
+              : null
+          }
           sectionTitle={sectionTitle}
           modalActive={modalActive}
           toggleModal={toggleModal}

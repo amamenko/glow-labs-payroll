@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Button,
   Modal,
@@ -11,7 +12,33 @@ import {
 } from "reactstrap";
 
 const LineItemModal = (props) => {
-  const { modalActive, toggleModal, sectionTitle } = props;
+  const { modalActive, toggleModal, sectionTitle, sectionArr, changeFn } =
+    props;
+
+  const [newName, changeNewName] = useState("");
+  const [newPriceOrPercent, changeNewPriceOrPercent] = useState("");
+
+  const handleChangeName = (e) => {
+    changeNewName(e.target.value);
+  };
+
+  const handleChangePriceOrPercent = (e) => {
+    changeNewPriceOrPercent(e.target.value);
+  };
+
+  const handleAddItemClick = () => {
+    toggleModal();
+    const clone = [...sectionArr];
+    clone.push({ name: newName, price: newPriceOrPercent });
+
+    changeFn(clone);
+  };
+
+  const handleCancelClick = () => {
+    toggleModal();
+    changeNewName("");
+    changeNewPriceOrPercent("");
+  };
 
   return (
     <Modal isOpen={modalActive} toggle={toggleModal}>
@@ -28,21 +55,27 @@ const LineItemModal = (props) => {
           <InputGroupAddon addonType="prepend">
             <InputGroupText>Name</InputGroupText>
           </InputGroupAddon>
-          <Input />
+          <Input maxLength={50} onChange={handleChangeName} value={newName} />
         </InputGroup>
         <br />
         <InputGroup>
           <InputGroupAddon addonType="prepend">
-            <InputGroupText>Price</InputGroupText>
+            <InputGroupText>
+              {sectionTitle === "Extras" ? "Percent" : "Price"}
+            </InputGroupText>
           </InputGroupAddon>
-          <Input />
+          <Input
+            maxLength={50}
+            onChange={handleChangePriceOrPercent}
+            value={newPriceOrPercent}
+          />
         </InputGroup>
       </ModalBody>
       <ModalFooter>
-        <Button color="primary" onClick={toggleModal}>
+        <Button color="primary" onClick={handleAddItemClick}>
           Add Item
-        </Button>{" "}
-        <Button color="secondary" onClick={toggleModal}>
+        </Button>
+        <Button color="secondary" onClick={handleCancelClick}>
           Cancel
         </Button>
       </ModalFooter>

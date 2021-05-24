@@ -81,8 +81,13 @@
   }
 }
 
+.close {
+  padding: 0 0.5rem;
+}
+
 .form-control {
   min-width: 55px !important;
+  padding: 0 1rem;
 }
 
 .input_legend {
@@ -165,5 +170,19 @@
   & > svg {
     position: absolute;
     left: 5%;
+  }
+}
+
+.modal {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-dialog {
+  margin: 40% auto !important;
+}
+
+.modal-body {
+  .input-group {
+    max-width: 100%;
   }
 }
