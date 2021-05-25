@@ -23,7 +23,11 @@ const LineItemModal = (props) => {
   };
 
   const handleChangePriceOrPercent = (e) => {
-    changeNewPriceOrPercent(e.target.value);
+    const numbersRegex = new RegExp(/^(\d+)?([.]?\d{0,2})?$/);
+
+    if (numbersRegex.test(e.target.value) || Number(e.target.value)) {
+      changeNewPriceOrPercent(e.target.value);
+    }
   };
 
   const handleAddItemClick = () => {
@@ -72,7 +76,11 @@ const LineItemModal = (props) => {
         </InputGroup>
       </ModalBody>
       <ModalFooter>
-        <Button color="primary" onClick={handleAddItemClick}>
+        <Button
+          disabled={!newName || !newPriceOrPercent}
+          color="primary"
+          onClick={handleAddItemClick}
+        >
           Add Item
         </Button>
         <Button color="secondary" onClick={handleCancelClick}>
