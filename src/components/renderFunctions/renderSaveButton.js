@@ -18,9 +18,11 @@ export const renderSaveButton = (
   changeSpinnerLoading
 ) => {
   const mapToStringFunction = (item, priceOrPercent) => {
+    const stringItem = JSON.stringify(item[priceOrPercent]);
+
     return {
       name: item.name,
-      price: JSON.stringify(item[priceOrPercent]).replace(/\"/g, ""),
+      price: stringItem ? stringItem.replace(/\"/g, "") : "",
     };
   };
 

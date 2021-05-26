@@ -183,6 +183,10 @@
 
 .modal-dialog {
   margin: 40% auto !important;
+
+  @media (min-width: 1200px) {
+    margin: 20% auto !important;
+  }
 }
 
 .modal-body {

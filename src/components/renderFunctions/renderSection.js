@@ -75,11 +75,15 @@ export const renderSection = (
                   : item.name === "Products"
                   ? products
                   : sectionTitle === "Main Treatments"
-                  ? numberOfMainServices[i] || numberOfMainServices[i] === 0
-                    ? numberOfMainServices[i]
+                  ? numberOfMainServices
+                    ? numberOfMainServices[i] || numberOfMainServices[i] === 0
+                      ? numberOfMainServices[i]
+                      : ""
                     : ""
-                  : numberOfAddOns[i] || numberOfAddOns[i] === 0
-                  ? numberOfAddOns[i]
+                  : numberOfAddOns
+                  ? numberOfAddOns[i] || numberOfAddOns[i] === 0
+                    ? numberOfAddOns[i]
+                    : ""
                   : ""
               }
             />
