@@ -194,3 +194,15 @@
     max-width: 100%;
   }
 }
+
+.percent_radio {
+  margin: 0 0.5rem;
+
+  & > input {
+    border-radius: 50% !important;
+  }
+
+  & > p {
+    padding-left: 1rem;
+  }
+}

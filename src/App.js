@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import InputSection from "./components/InputSection";
 import NavigationBar from "./components/NavigationBar/NavigationBar";
 import axios from "axios";
-import "./App.scss";
 import { Spinner } from "reactstrap";
+import "./App.scss";
 
 const App = () => {
   const [tips, changeTips] = useState(0);

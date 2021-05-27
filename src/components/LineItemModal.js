@@ -74,6 +74,19 @@ const LineItemModal = (props) => {
             value={newPriceOrPercent}
           />
         </InputGroup>
+        <br />
+        {sectionTitle === "Extras" ? (
+          <>
+            <InputGroup className="percent_radio">
+              <Input type="radio" name="percent_radio" checked={true} />
+              <p>Percentage of pay</p>
+            </InputGroup>
+            <InputGroup className="percent_radio">
+              <Input type="radio" name="percent_radio" />
+              <p>Percentage subtracted from pay</p>
+            </InputGroup>
+          </>
+        ) : null}
       </ModalBody>
       <ModalFooter>
         <Button
