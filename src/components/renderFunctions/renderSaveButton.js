@@ -15,7 +15,9 @@ export const renderSaveButton = (
   sectionArr,
   changeSectionArr,
   spinnerLoading,
-  changeSpinnerLoading
+  changeSpinnerLoading,
+  bottomButtonsVisible,
+  changeBottomButtonsVisible
 ) => {
   const mapToStringFunction = (item, priceOrPercent) => {
     const stringItem = JSON.stringify(item[priceOrPercent]);
@@ -28,6 +30,10 @@ export const renderSaveButton = (
 
   const handleSaveClick = () => {
     changeSpinnerLoading(true);
+
+    if (bottomButtonsVisible) {
+      changeBottomButtonsVisible(false);
+    }
 
     const client = createClient({
       accessToken: process.env.REACT_APP_CONTENTFUL_MANAGEMENT_TOKEN,
@@ -94,26 +100,29 @@ export const renderSaveButton = (
   };
 
   const handleResetClick = () => {
-    const initialPriceClone = { ...allCurrentPrices };
-
-    changeAllInitialPrices(initialPriceClone);
+    if (bottomButtonsVisible) {
+      changeBottomButtonsVisible(false);
+    }
 
     if (sectionTitle === "Main Treatments") {
       if (changeSectionArr) {
-        changeSectionArr(initialPriceClone.facials);
+        changeSectionArr(allInitialPrices.facials);
       }
     } else if (sectionTitle === "Add Ons") {
       if (changeSectionArr) {
-        changeSectionArr(initialPriceClone.addOns);
+        changeSectionArr(allInitialPrices.addOns);
       }
     } else {
       if (changeSectionArr) {
-        changeSectionArr(initialPriceClone.extras);
+        changeSectionArr(allInitialPrices.extras);
       }
     }
   };
 
   const showButtons = () => {
+    if (!bottomButtonsVisible) {
+      changeBottomButtonsVisible(true);
+    }
     return (
       <>
         <div className="save_button_container">
@@ -143,43 +152,48 @@ export const renderSaveButton = (
   if (sectionTitle !== "Total") {
     const initialPriceClone = { ...allCurrentPrices };
 
+    const checkForChanges = (sectionName, valueType) => {
+      const compareContentArr = initialPriceClone[sectionName].map((item) =>
+        mapToStringFunction(item, valueType)
+      );
+
+      const compareLengthArr = allInitialPrices[sectionName].map((item) =>
+        mapToStringFunction(item, valueType)
+      );
+
+      const currentSectionArr = sectionArr.map((item) =>
+        mapToStringFunction(item, valueType)
+      );
+
+      const changesMade =
+        !isEqual(compareContentArr, currentSectionArr) ||
+        !isEqual(compareLengthArr, currentSectionArr);
+
+      return changesMade;
+    };
+
     if (sectionTitle === "Main Treatments") {
       if (allInitialPrices && allCurrentPrices) {
-        const changesMade = !isEqual(
-          initialPriceClone.facials.map((item) =>
-            mapToStringFunction(item, "price")
-          ),
-          sectionArr.map((item) => mapToStringFunction(item, "price"))
-        );
+        const changesWereMade = checkForChanges("facials", "price");
 
-        if (changesMade) {
+        if (changesWereMade && bottomButtonsVisible) {
           return showButtons();
         }
       }
     } else if (sectionTitle === "Add Ons") {
       if (allInitialPrices && allCurrentPrices) {
-        const changesMade = !isEqual(
-          initialPriceClone.addOns.map((item) =>
-            mapToStringFunction(item, "price")
-          ),
-          sectionArr.map((item) => mapToStringFunction(item, "price"))
-        );
+        const changesWereMade = checkForChanges("addOns", "price");
 
-        if (changesMade) {
+        if (changesWereMade && bottomButtonsVisible) {
           return showButtons();
         }
       }
     } else {
       if (sectionTitle === "Extras") {
         if (allInitialPrices && allCurrentPrices) {
-          const changesMade = !isEqual(
-            initialPriceClone.extras.map((item) =>
-              mapToStringFunction(item, "percent")
-            ),
-            sectionArr.map((item) => mapToStringFunction(item, "percent"))
-          );
+          const changesWereMade = checkForChanges("extras", "percent");
 
-          if (changesMade) {
+          if (changesWereMade && bottomButtonsVisible) {
             return showButtons();
           }
         }

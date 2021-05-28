@@ -8,11 +8,17 @@ export const handlePriceOrPercentChange = (
   sectionArr,
   allCurrentPrices,
   changeAllCurrentPrices,
-  sectionChangeFn
+  sectionChangeFn,
+  bottomButtonsVisible,
+  changeBottomButtonsVisible
 ) => {
   const numbersRegex = new RegExp(/^(\d+)?([.]?\d{0,2})?$/);
 
-  const changeSectionFunction = (arr, changeFn) => {
+  const changeSectionFunction = (section, arr, changeFn) => {
+    if (!bottomButtonsVisible) {
+      changeBottomButtonsVisible(true);
+    }
+
     let allPricesClone = cloneDeep(allCurrentPrices);
 
     if (numbersRegex.test(e.target.value) || Number(e.target.value)) {
@@ -24,7 +30,7 @@ export const handlePriceOrPercentChange = (
         newSection[index].percent = e.target.value;
       }
 
-      allPricesClone.section = newSection;
+      allPricesClone[section] = newSection;
 
       changeAllCurrentPrices(allPricesClone);
       changeFn(newSection);
@@ -33,15 +39,15 @@ export const handlePriceOrPercentChange = (
 
   if (priceOrPercent === "price") {
     if (sectionTitle === "Main Treatments") {
-      changeSectionFunction(sectionArr, sectionChangeFn);
+      changeSectionFunction("facials", sectionArr, sectionChangeFn);
     } else {
       if (sectionTitle === "Add Ons") {
-        changeSectionFunction(sectionArr, sectionChangeFn);
+        changeSectionFunction("addOns", sectionArr, sectionChangeFn);
       }
     }
   } else {
     if (sectionTitle === "Extras") {
-      changeSectionFunction(sectionArr, sectionChangeFn);
+      changeSectionFunction("extras", sectionArr, sectionChangeFn);
     }
   }
 };

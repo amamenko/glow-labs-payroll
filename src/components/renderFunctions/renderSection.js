@@ -19,7 +19,9 @@ export const renderSection = (
   tips,
   changeTips,
   products,
-  changeProducts
+  changeProducts,
+  bottomButtonsVisible,
+  changeBottomButtonsVisible
 ) => {
   if (sectionArr) {
     return sectionArr.map((item, i) => {
@@ -49,7 +51,9 @@ export const renderSection = (
                     ? changeCurrentFacialPrices
                     : sectionTitle === "Add Ons"
                     ? changeCurrentAddOnPrices
-                    : changeCurrentExtrasPrices
+                    : changeCurrentExtrasPrices,
+                  bottomButtonsVisible,
+                  changeBottomButtonsVisible
                 )
               }
             />
@@ -99,7 +103,10 @@ export const renderSection = (
                     ? changeCurrentFacialPrices
                     : sectionTitle === "Add Ons"
                     ? changeCurrentAddOnPrices
-                    : changeCurrentExtrasPrices
+                    : changeCurrentExtrasPrices,
+
+                  bottomButtonsVisible,
+                  changeBottomButtonsVisible
                 )
               }
             />

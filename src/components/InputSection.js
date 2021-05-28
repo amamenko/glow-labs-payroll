@@ -43,6 +43,7 @@ const InputSection = (props) => {
 
   const [spinnerLoading, changeSpinnerLoading] = useState(false);
   const [modalActive, changeModalActive] = useState(false);
+  const [bottomButtonsVisible, changeBottomButtonsVisible] = useState(false);
 
   useEffect(() => {
     if (numberOfMainServices) {
@@ -99,7 +100,9 @@ const InputSection = (props) => {
         tips,
         changeTips,
         products,
-        changeProducts
+        changeProducts,
+        bottomButtonsVisible,
+        changeBottomButtonsVisible
       )}
       {sectionTitle === "Main Treatments" ? (
         <>
@@ -139,7 +142,9 @@ const InputSection = (props) => {
             ? changeCurrentExtrasPrices
             : null,
           spinnerLoading,
-          changeSpinnerLoading
+          changeSpinnerLoading,
+          bottomButtonsVisible,
+          changeBottomButtonsVisible
         )}
         {sectionTitle !== "Total" ? (
           <Button

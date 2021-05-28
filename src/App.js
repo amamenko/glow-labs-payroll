@@ -174,8 +174,9 @@ const App = () => {
               currentExtrasPrices={currentExtrasPrices}
               changeCurrentExtrasPrices={changeCurrentExtrasPrices}
               allInitialPrices={allInitialPrices}
-              currentEsthetician={currentEsthetician}
               changeAllInitialPrices={changeAllInitialPrices}
+              currentEsthetician={currentEsthetician}
+              currentFacialPrices={currentFacialPrices}
             />
           </div>
           <div>
