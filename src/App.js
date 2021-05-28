@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import InputSection from "./components/InputSection";
 import NavigationBar from "./components/NavigationBar/NavigationBar";
 import axios from "axios";
+import cloneDeep from "lodash/cloneDeep";
 import { Spinner } from "reactstrap";
 import "./App.scss";
 
@@ -90,8 +91,9 @@ const App = () => {
 
       if (filteredEsthetician) {
         if (filteredEsthetician[0]) {
-          changeAllInitialPrices(filteredEsthetician[0]);
-          changeAllCurrentPrices(filteredEsthetician[0]);
+          // Important to deep clone - otherwise allInitialPrices will copy allCurrentPrices
+          changeAllInitialPrices(cloneDeep(filteredEsthetician[0]));
+          changeAllCurrentPrices(cloneDeep(filteredEsthetician[0]));
           changeCurrentFacialPrices(filteredEsthetician[0].facials);
           changeCurrentAddOnPrices(filteredEsthetician[0].addOns);
           changeCurrentExtrasPrices(filteredEsthetician[0].extras);

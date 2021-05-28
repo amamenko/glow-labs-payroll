@@ -3,6 +3,7 @@ import { Button } from "reactstrap";
 import { createClient } from "contentful-management";
 import { Spinner } from "reactstrap";
 import { RiDeleteBinLine, RiSave2Line } from "react-icons/ri";
+import cloneDeep from "lodash/cloneDeep";
 /* eslint-disable no-useless-escape */
 
 export const renderSaveButton = (
@@ -104,17 +105,20 @@ export const renderSaveButton = (
       changeBottomButtonsVisible(false);
     }
 
+    // Important to deep clone - otherwise will copy allCurrentPrices
+    const initialPriceClone = cloneDeep(allInitialPrices);
+
     if (sectionTitle === "Main Treatments") {
       if (changeSectionArr) {
-        changeSectionArr(allInitialPrices.facials);
+        changeSectionArr(initialPriceClone.facials);
       }
     } else if (sectionTitle === "Add Ons") {
       if (changeSectionArr) {
-        changeSectionArr(allInitialPrices.addOns);
+        changeSectionArr(initialPriceClone.addOns);
       }
     } else {
       if (changeSectionArr) {
-        changeSectionArr(allInitialPrices.extras);
+        changeSectionArr(initialPriceClone.extras);
       }
     }
   };
