@@ -44,16 +44,22 @@ const LineItemModal = (props) => {
   const handleAddItemClick = () => {
     toggleModal();
     const clone = [...sectionArr];
-    clone.push({ name: newName, price: Number(newPriceOrPercent) });
 
     let allPricesClone = cloneDeep(allCurrentPrices);
 
     if (sectionTitle === "Main Treatments") {
       allPricesClone["facials"] = clone;
+      clone.push({ name: newName, price: Number(newPriceOrPercent) });
     } else if (sectionTitle === "Add Ons") {
       allPricesClone["addOns"] = clone;
+      clone.push({ name: newName, price: Number(newPriceOrPercent) });
     } else {
       allPricesClone["extras"] = clone;
+      clone.push({
+        name: newName,
+        percent: Number(newPriceOrPercent),
+        math: percentageSelection,
+      });
     }
 
     if (!bottomButtonsVisible) {
@@ -109,8 +115,8 @@ const LineItemModal = (props) => {
               <Input
                 type="radio"
                 name="percent_radio"
-                onClick={() => changePercentageSelection("percentageOfPay")}
-                checked={percentageSelection === "percentageOfPay"}
+                onClick={() => changePercentageSelection("percentageOf")}
+                checked={percentageSelection === "percentageOf"}
               />
               <p>Percentage of pay</p>
             </InputGroup>
@@ -119,9 +125,9 @@ const LineItemModal = (props) => {
                 type="radio"
                 name="percent_radio"
                 onClick={() =>
-                  changePercentageSelection("percentageSubtracted")
+                  changePercentageSelection("subtractPercentageFrom")
                 }
-                checked={percentageSelection === "percentageSubtracted"}
+                checked={percentageSelection === "subtractPercentageFrom"}
               />
               <p>Percentage subtracted from pay</p>
             </InputGroup>

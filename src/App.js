@@ -32,6 +32,12 @@ const App = () => {
   }, [currentFacialPrices]);
 
   useEffect(() => {
+    if (currentAddOnPrices) {
+      changeNumberOfAddOns(new Array(currentAddOnPrices.length).fill(""));
+    }
+  }, [currentAddOnPrices]);
+
+  useEffect(() => {
     const estheticianQuery = `
       query {
         estheticianCollection {
@@ -101,12 +107,6 @@ const App = () => {
       }
     }
   }, [currentEsthetician, estheticianResults]);
-
-  useEffect(() => {
-    if (currentAddOnPrices) {
-      changeNumberOfAddOns(new Array(currentAddOnPrices.length).fill(""));
-    }
-  }, [currentAddOnPrices]);
 
   return (
     <>
