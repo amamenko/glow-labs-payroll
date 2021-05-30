@@ -10,13 +10,24 @@ import {
   InputGroupAddon,
   InputGroupText,
 } from "reactstrap";
+import { cloneDeep } from "lodash";
 
 const LineItemModal = (props) => {
-  const { modalActive, toggleModal, sectionTitle, sectionArr, changeFn } =
-    props;
+  const {
+    modalActive,
+    toggleModal,
+    sectionTitle,
+    sectionArr,
+    changeFn,
+    allCurrentPrices,
+    changeAllCurrentPrices,
+    bottomButtonsVisible,
+    changeBottomButtonsVisible,
+  } = props;
 
   const [newName, changeNewName] = useState("");
   const [newPriceOrPercent, changeNewPriceOrPercent] = useState("");
+  const [percentageSelection, changePercentageSelection] = useState("");
 
   const handleChangeName = (e) => {
     changeNewName(e.target.value);
@@ -33,8 +44,25 @@ const LineItemModal = (props) => {
   const handleAddItemClick = () => {
     toggleModal();
     const clone = [...sectionArr];
-    clone.push({ name: newName, price: newPriceOrPercent });
+    clone.push({ name: newName, price: Number(newPriceOrPercent) });
 
+    let allPricesClone = cloneDeep(allCurrentPrices);
+
+    if (sectionTitle === "Main Treatments") {
+      allPricesClone["facials"] = clone;
+    } else if (sectionTitle === "Add Ons") {
+      allPricesClone["addOns"] = clone;
+    } else {
+      allPricesClone["extras"] = clone;
+    }
+
+    if (!bottomButtonsVisible) {
+      changeBottomButtonsVisible(true);
+    }
+
+    changeNewName("");
+    changeNewPriceOrPercent("");
+    changeAllCurrentPrices(allPricesClone);
     changeFn(clone);
   };
 
@@ -78,11 +106,23 @@ const LineItemModal = (props) => {
         {sectionTitle === "Extras" ? (
           <>
             <InputGroup className="percent_radio">
-              <Input type="radio" name="percent_radio" checked={true} />
+              <Input
+                type="radio"
+                name="percent_radio"
+                onClick={() => changePercentageSelection("percentageOfPay")}
+                checked={percentageSelection === "percentageOfPay"}
+              />
               <p>Percentage of pay</p>
             </InputGroup>
             <InputGroup className="percent_radio">
-              <Input type="radio" name="percent_radio" />
+              <Input
+                type="radio"
+                name="percent_radio"
+                onClick={() =>
+                  changePercentageSelection("percentageSubtracted")
+                }
+                checked={percentageSelection === "percentageSubtracted"}
+              />
               <p>Percentage subtracted from pay</p>
             </InputGroup>
           </>
@@ -90,7 +130,11 @@ const LineItemModal = (props) => {
       </ModalBody>
       <ModalFooter>
         <Button
-          disabled={!newName || !newPriceOrPercent}
+          disabled={
+            !newName ||
+            !newPriceOrPercent ||
+            (sectionTitle === "Extras" ? !percentageSelection : null)
+          }
           color="primary"
           onClick={handleAddItemClick}
         >

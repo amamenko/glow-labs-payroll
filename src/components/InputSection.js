@@ -167,9 +167,13 @@ const InputSection = (props) => {
               ? changeCurrentExtrasPrices
               : null
           }
+          allCurrentPrices={allCurrentPrices}
+          changeAllCurrentPrices={changeAllCurrentPrices}
           sectionTitle={sectionTitle}
           modalActive={modalActive}
           toggleModal={toggleModal}
+          bottomButtonsVisible={bottomButtonsVisible}
+          changeBottomButtonsVisible={changeBottomButtonsVisible}
         />
       </div>
       {sectionTitle === "Total" ? (
