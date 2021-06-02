@@ -219,6 +219,16 @@ const InputSection = (props) => {
                     ? Number(products) * (currentExtrasPrices[1].percent / 100)
                     : 0
                   : 0) +
+                // (currentExtrasPrices
+                //   ? currentExtrasPrices.slice(2)
+                //     ? currentExtrasPrices.slice(2).map((item) => {
+                //       if (item.math === "percentageOf") {
+                //         return item.percent *
+                //       }
+                //     })
+                //       ? Number(products) * (currentExtrasPrices[1].percent / 100)
+                //       : 0
+                //   : 0)
                 numberOfMainServices
                   .map((item, i) => {
                     let difference = 0;

@@ -91,25 +91,28 @@ export const renderSection = (
                   : ""
               }
             />
-            <RiDeleteBin5Fill
-              fill="#cb2431"
-              onClick={() =>
-                handleDeleteItem(
-                  sectionTitle,
-                  i,
-                  allCurrentPrices,
-                  changeAllCurrentPrices,
-                  sectionTitle === "Main Treatments"
-                    ? changeCurrentFacialPrices
-                    : sectionTitle === "Add Ons"
-                    ? changeCurrentAddOnPrices
-                    : changeCurrentExtrasPrices,
-
-                  bottomButtonsVisible,
-                  changeBottomButtonsVisible
-                )
-              }
-            />
+            {item.name === "Tips" ||
+            item.name === "Products" ||
+            item.name === "Facial" ? null : (
+              <RiDeleteBin5Fill
+                fill="#cb2431"
+                onClick={() =>
+                  handleDeleteItem(
+                    sectionTitle,
+                    i,
+                    allCurrentPrices,
+                    changeAllCurrentPrices,
+                    sectionTitle === "Main Treatments"
+                      ? changeCurrentFacialPrices
+                      : sectionTitle === "Add Ons"
+                      ? changeCurrentAddOnPrices
+                      : changeCurrentExtrasPrices,
+                    bottomButtonsVisible,
+                    changeBottomButtonsVisible
+                  )
+                }
+              />
+            )}
           </InputGroup>
           <br />
         </div>
