@@ -7,8 +7,7 @@ import { Spinner } from "reactstrap";
 import "./App.scss";
 
 const App = () => {
-  const [tips, changeTips] = useState(0);
-  const [products, changeProducts] = useState(0);
+  // General Esthetician Data
   const [numberOfMainServices, changeNumberOfMainServices] = useState([]);
   const [numberOfAddOns, changeNumberOfAddOns] = useState([]);
   const [totalFacialPrice, changeTotalFacialPrice] = useState(0);
@@ -22,6 +21,8 @@ const App = () => {
   const [currentFacialPrices, changeCurrentFacialPrices] = useState("");
   const [currentAddOnPrices, changeCurrentAddOnPrices] = useState("");
   const [currentExtrasPrices, changeCurrentExtrasPrices] = useState("");
+  const [tips, changeTips] = useState(0);
+  const [products, changeProducts] = useState(0);
 
   useEffect(() => {
     if (currentFacialPrices) {
